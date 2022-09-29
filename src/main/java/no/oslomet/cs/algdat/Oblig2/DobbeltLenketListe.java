@@ -6,6 +6,7 @@ package no.oslomet.cs.algdat.Oblig2;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Objects;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -35,13 +36,32 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private Node<T> hale;          // peker til den siste i listen
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
-
     public DobbeltLenketListe() {
-        throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
+        this.hode = null;
+        this.hale = null;
+        this.antall = this.endringer = 0;
     }
 
     public DobbeltLenketListe(T[] a) {
-        throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
+        if(a == null){
+            throw new NullPointerException("Tabellen a er null!");
+        }
+
+        for(int i = 0; i < a.length; i++){
+            if(a[i] != null){
+                Node tmp = new Node(a[i]);
+                if(hode == null){
+                    hode = hale = tmp;
+                }
+                hale.neste = tmp;
+                tmp.forrige = hale;
+                hale = tmp;
+                hale.neste = null;
+            }
+        }
+
     }
 
     public Liste<T> subliste(int fra, int til) {
@@ -50,17 +70,44 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int antall() {
-        throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
+        if(hode != null){
+            int antall = 1;
+            return antall(hode.neste, antall);
+        }
+        return 0;
+    }
+
+    private int antall(Node node, int antall){
+        if(node == null) return antall;
+        antall++;
+        return antall(node.neste, antall);
     }
 
     @Override
     public boolean tom() {
-        throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
+        if(hode == null){
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean leggInn(T verdi) {
-        throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
+        Objects.requireNonNull(verdi);
+        if(hode == null){
+            hode = hale = new Node<>(verdi);
+        }
+        else{
+            Node tmp = new Node(verdi);
+            hale.neste = tmp;
+            tmp.forrige = hale;
+            hale = tmp;
+            hale.neste = null;
+        }
+        return true;
     }
 
     @Override
@@ -73,9 +120,36 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
+    private Node<T> finnNode(int indeks){
+        if (indeks <= (antall / 2)) {
+            Node<T> temp = hode;
+            int count = 0;
+            while (temp != null) {
+                if (count == indeks) {
+                    return temp;
+                }
+                count++;
+                temp = temp.neste;
+            }
+        } else {
+            Node<T> temp = hale;
+            int count = antall-1;
+            while (temp != null) {
+                if (count == indeks) {
+                    return temp;
+                }
+                count--;
+                temp = temp.forrige;
+            }
+        }
+        return null;
+    }
+
     @Override
     public T hent(int indeks) {
-        throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
+        indeksKontroll(indeks, false);
+        return finnNode(indeks).verdi;
     }
 
     @Override
@@ -105,11 +179,37 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public String toString() {
-        throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
+        StringBuilder sb = new StringBuilder("[");
+        Node temp = hode;
+
+        while (temp != null){
+            sb.append(temp.verdi);
+            if(temp.neste != null){
+                sb.append(", ");
+            }
+            temp = temp.neste;
+        }
+
+        sb.append("]");
+        return sb.toString();
     }
 
     public String omvendtString() {
-        throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
+        StringBuilder sb = new StringBuilder("[");
+        Node<T> temp = hale;
+
+        while(temp != null){
+            sb.append(temp.verdi);
+            if(temp.forrige != null){
+                sb.append(", ");
+            }
+            temp = temp.forrige;
+        }
+
+        sb.append("]");
+        return sb.toString();
     }
 
     @Override
