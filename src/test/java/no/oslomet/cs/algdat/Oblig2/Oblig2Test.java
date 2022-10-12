@@ -924,6 +924,7 @@ class Oblig2Test {
     }
 
     //// Oppgave 7 ////////////////////////////
+    /*
     @org.junit.jupiter.api.Test
     void oppgave7() {
         int antallFeil = 0;
@@ -957,6 +958,7 @@ class Oblig2Test {
             System.out.println("Oppgave 7d: Feil i metoden nullstill()!");
         }
     }
+    */
 
     //// Oppgave 8 ////////////////////////////
     @org.junit.jupiter.api.Test
@@ -1151,6 +1153,7 @@ class Oblig2Test {
     }
 
     ////// Oppgave 9 /////////////////////
+    /*
     @org.junit.jupiter.api.Test
     void oppgave9() {
         int antallFeil = 0;
@@ -1241,8 +1244,11 @@ class Oblig2Test {
             }
         }
     }
+    */
+
 
     ////// Oppgave 10 /////////////////////
+    /*
     @org.junit.jupiter.api.Test
     void oppgave10() {
         int antallFeil = 0;
@@ -1295,5 +1301,6 @@ class Oblig2Test {
             antallFeil++;
         }
     }
+     */
 
 }
