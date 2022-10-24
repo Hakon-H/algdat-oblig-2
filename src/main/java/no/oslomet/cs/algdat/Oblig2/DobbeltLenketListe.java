@@ -182,6 +182,28 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     private Node<T> finnNode(int indeks){
         //throw new UnsupportedOperationException();
+        if(indeks < 0 || indeks > antall) return null;
+        Node tmp;
+
+        if(indeks < antall/2){
+            int pos = 0;
+            tmp = hode;
+            while(pos != indeks){
+                pos++;
+                tmp = tmp.neste;
+            }
+        } else{
+            int pos = antall-1;
+            tmp = hale;
+            while(pos != indeks){
+                pos--;
+                tmp = tmp.forrige;
+            }
+        }
+
+        return tmp;
+
+        /*
         if(indeks >= 0 && indeks < antall){
             if(indeks <= antall/2){
                 int pos = 0;
@@ -203,6 +225,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             }
         }
         return null;
+        */
+
+
     }
 
     @Override
@@ -240,35 +265,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public boolean fjern(T verdi) {
         //throw new UnsupportedOperationException();
         int indeks = indeksTil(verdi);
-
         return indeks == -1 ? false : fjern(indeks) != null ? true : false;
-        /*
-
-        indeksKontroll(indeks, false);
-        Node<T> temp = finnNode(indeks);
-
-        if(indeks == 0){
-            if(hode.neste == null){
-                hale = null;
-            } else{
-                hode.neste.forrige = null;
-            }
-            hode = hode.neste;
-        } else if(indeks == antall-1){
-            if(hode.neste == null){
-                hode = null;
-            } else{
-                hale.forrige.neste = null;
-            }
-            hale = hale.forrige;
-        } else{
-            temp.forrige.neste = temp.neste;
-            temp.neste.forrige = temp.forrige;
-        }
-        endringer++;
-        antall();
-
-         */
     }
 
     @Override
