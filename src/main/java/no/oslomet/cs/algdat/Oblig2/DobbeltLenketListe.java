@@ -78,7 +78,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public Liste<T> subliste(int fra, int til) {
         //throw new UnsupportedOperationException();
-        fratilKontroll(antall, fra, til);
+        fratilKontroll(antall(), fra, til);
 
         DobbeltLenketListe output = new DobbeltLenketListe();
         DobbeltLenketListe oops = new DobbeltLenketListe();
@@ -129,6 +129,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             hale.neste = null;
         }
         endringer++;
+        antall();
         return true;
     }
 
