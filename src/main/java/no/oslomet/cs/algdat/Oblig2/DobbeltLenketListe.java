@@ -50,7 +50,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         for(int i = 0; i < a.length; i++){
             if(a[i] != null){
                 Node tmp = new Node(a[i]);
-                if(hode == null){
+                if(tom()){
                     hode = hale = tmp;
                 }
                 hale.neste = tmp;
@@ -81,7 +81,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         fratilKontroll(antall(), fra, til);
 
         DobbeltLenketListe output = new DobbeltLenketListe();
-        DobbeltLenketListe oops = new DobbeltLenketListe();
 
         for(int i = fra; i < til; i++){
             output.leggInn(hent(i));
@@ -118,7 +117,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public boolean leggInn(T verdi) {
         //throw new UnsupportedOperationException();
         Objects.requireNonNull(verdi);
-        if(hode == null){
+        if(tom()){
             hode = hale = new Node<>(verdi);
         }
         else{
@@ -141,7 +140,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             Node tmp = new Node(verdi);
 
             //hvis tabellen er tom
-            if (hode == null) {
+            if (tom()) {
                 hode = hale = tmp;
             }
             //hvis man skal sette inn i hode noden
@@ -241,9 +240,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public boolean fjern(T verdi) {
         //throw new UnsupportedOperationException();
         int indeks = indeksTil(verdi);
-        if(indeks == -1){
-            return false;
-        }
+
+        return indeks == -1 ? false : fjern(indeks) != null ? true : false;
+        /*
+
         indeksKontroll(indeks, false);
         Node<T> temp = finnNode(indeks);
 
@@ -267,7 +267,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
         endringer++;
         antall();
-        return true;
+
+         */
     }
 
     @Override
