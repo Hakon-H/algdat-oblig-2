@@ -165,6 +165,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 prev.neste = tmp;
                 tmp.forrige = prev;
                 tmp.forrige.neste = tmp;
+                tmp.neste.forrige = tmp;
             }
             endringer++;
             antall();
