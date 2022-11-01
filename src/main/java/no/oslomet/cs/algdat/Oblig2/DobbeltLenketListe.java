@@ -182,52 +182,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     private Node<T> finnNode(int indeks){
         //throw new UnsupportedOperationException();
-        if(indeks < 0 || indeks > antall) return null;
-        Node tmp;
-
-        if(indeks < antall/2){
-            int pos = 0;
-            tmp = hode;
-            while(pos != indeks){
-                pos++;
-                tmp = tmp.neste;
-            }
+        if(indeks < antall/2) {
+            Node<T> p = hode;
+            for (int i = 0; i < indeks; i++) p = p.neste;
+            return p;
         } else{
-            int pos = antall-1;
-            tmp = hale;
-            while(pos != indeks){
-                pos--;
-                tmp = tmp.forrige;
-            }
+            Node<T> p = hale;
+            for (int i = antall-1; i > indeks; i--) p = p.forrige;
+            return p;
         }
-
-        return tmp;
-
-        /*
-        if(indeks >= 0 && indeks < antall){
-            if(indeks <= antall/2){
-                int pos = 0;
-                Node tmp = hode;
-                while(pos != indeks){
-                    pos++;
-                    tmp = tmp.neste;
-                }
-                return tmp;
-            }
-            else{
-                int pos = antall-1;
-                Node tmp = hale;
-                while(pos != indeks){
-                    pos--;
-                    tmp = tmp.forrige;
-                }
-                return tmp;
-            }
-        }
-        return null;
-        */
-
-
     }
 
     @Override
