@@ -57,6 +57,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 tmp.forrige = hale;
                 hale = tmp;
                 hale.neste = null;
+                antall++;
             }
         }
 
@@ -78,7 +79,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public Liste<T> subliste(int fra, int til) {
         //throw new UnsupportedOperationException();
-        fratilKontroll(antall(), fra, til);
+        fratilKontroll(tellAntall(), fra, til);
 
         DobbeltLenketListe output = new DobbeltLenketListe();
 
@@ -93,6 +94,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public int antall() {
         //throw new UnsupportedOperationException();
 
+        return this.antall;
+    }
+
+    private int tellAntall(){
         Node tmp = hode;
         antall = 0;
 
@@ -100,7 +105,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             antall++;
             tmp = tmp.neste;
         }
-
         return antall;
     }
 
@@ -128,7 +132,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             hale.neste = null;
         }
         endringer++;
-        antall();
+        antall++;
         return true;
     }
 
@@ -168,7 +172,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 tmp.neste.forrige = tmp;
             }
             endringer++;
-            antall();
+            antall++;
         }
         else{throw new IndexOutOfBoundsException(indeks + " " + antall);}
     }
@@ -227,8 +231,50 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public boolean fjern(T verdi) {
         //throw new UnsupportedOperationException();
-        int indeks = indeksTil(verdi);
-        return indeks == -1 ? false : fjern(indeks) != null ? true : false;
+        /*
+        Node tmp = hode;
+        if(tmp.verdi.equals(hode.verdi)){
+            hode = hode.neste;
+            hode.forrige = null;
+            return true;
+        }
+        while(!tmp.verdi.equals(verdi) || tmp.neste != null){
+            tmp = tmp.neste;
+        }
+        if(tmp.verdi.equals(hale.verdi)){
+            hale = hale.forrige;
+            hale.neste = null;
+        }
+        */
+        Node tmp = hode;
+        while(tmp != null){
+            if(tmp.verdi.equals(verdi)) break;
+            tmp = tmp.neste;
+        }
+        if(tmp == null) return false;
+        if(tmp.verdi.equals(hode.verdi)){
+            if(hode.neste == null) hale = null;
+            else hode.neste.forrige = null;
+            hode = hode.neste;
+            endringer++;
+            antall--;
+            return true;
+        }
+        else if(tmp.verdi.equals(hale.verdi)){
+            hale.forrige.neste = null;
+            hale = hale.forrige;
+            endringer++;
+            antall--;
+            return true;
+        }
+        else if(tmp.verdi.equals(verdi)){
+            tmp.neste.forrige = tmp.forrige;
+            tmp.forrige.neste = tmp.neste;
+            endringer++;
+            antall--;
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -256,8 +302,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             temp.forrige.neste = temp.neste;
             temp.neste.forrige = temp.forrige;
         }
-        endringer++;
-        antall();
+        if(ut != null) {
+            endringer++;
+            antall--;
+        }
         return ut;
     }
 
